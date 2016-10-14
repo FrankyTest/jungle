@@ -129,5 +129,34 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+## REVIEWS
+
+puts "Re-creating Reviews ..."
+
+Review.destroy_all
+
+cat3.products.where(name: 'Red Bookshelf')[0].reviews.create!({
+  user_id: 1,
+  description: 'Great product, weird though',
+  rating: 4
+})
+
+cat3.products.where(name: 'Red Bookshelf')[0].reviews.create!({
+  user_id: 2,
+  description: 'Meh',
+  rating: 3
+})
+
+cat2.products.where(name: 'Hotdog Slicer')[0].reviews.create!({
+  user_id: 1,
+  description: 'What a useless product!',
+  rating: 1
+})
+
+cat2.products.where(name: 'Hotdog Slicer')[0].reviews.create!({
+  user_id: 2,
+  description: 'I love this slicer!!!',
+  rating: 5
+})
 
 puts "DONE!"
