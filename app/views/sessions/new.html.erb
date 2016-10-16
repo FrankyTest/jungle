@@ -1,9 +1,17 @@
-<h1>Login</h1>
+<header class="page-header">
+  <h1>Login</h1>
+</header>
 
-<%= form_tag '/login' do %>
+<div class="col-sm-12">
+  <dl class="dl-horizontal">
 
-  Email: <%= text_field_tag :email %>
-  Password: <%= password_field_tag :password %>
-  <%= submit_tag "Submit" %>
+    <%= form_tag '/login' do %>
 
-<% end %>
+      <dt>Email:</dt> <dd><%= text_field_tag :email %></dd><br />
+      <dt>Password:</dt> <dd><%= password_field_tag :password %></dd><br />
+      <dd><%= submit_tag "Sign In" %></dd>
+
+    <% end %>
+
+  </dl>
+</div>

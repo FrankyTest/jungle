@@ -21,35 +21,47 @@
           <dt>Quantity</dt>
           <dd><%= @product.quantity %></dd>
           <dt>Price</dt>
-          <dd><%= @product.price %></dd>
+          <dd><%= humanized_money_with_symbol @product.price %></dd><br />
+
+          <% if session[:user_id] != nil %>
+            <%= form_for @review, url: product_reviews_path(@product) do |f| %>
+              <%= f.hidden_field :product_id, value: @product.id %>
+              <%= f.hidden_field :user_id, value: session[:user_id] %>
+              <dt>Your Review</dt>
+              <dd><%= f.text_area :description, cols: "50", rows: "2" %></dd>
+              <dt>Your Rating</dt>
+              <dd><%= f.select :rating, [1, 2, 3, 4, 5] %></dd>
+              <dd><%= f.submit "Post Review", :class => 'post-review' %></dd>
+            <% end %>
+          <% else %>
+            <dd><i>Please log in to make a review</i></dd>
+          <% end %>
+
         </dl>
       </div>
     </div>
 
-    <% if session[:user_id] != nil %>
-      <%= form_for @review, url: product_reviews_path(@product) do |f| %>
-        <%= f.hidden_field :product_id, value: @product.id %>
-        <%= f.hidden_field :user_id, value: session[:user_id] %>
-        <%= f.text_area :description %>
-        <%= f.select :rating, [1, 2, 3, 4, 5] %>
-        <%= f.submit "Post Review" %>
-      <% end %>
-    <% else %>
-      <div>Please log in to make a review</div>
-    <% end %>
+    <header class="page-header">
+      <h1><%= @product.name %> reviews</h1>
+    </header>
 
-    <div class="row">
-      <% @product.reviews.reverse_each do |r| %>
-        <h4>User id: <%= r.user_id %></h4>
-        <div><b>Description:</b> <%= r.description %></div>
-        <div><b>Rating:</b> <%= r.rating %></div><br />
-        <% if r.user_id == session[:user_id] %>
-          <%= link_to product_review_path(@product, r.id), method: :delete do %>
-          <span>Delete</span>
+    <div class="col-sm-12">
+      <div class="row">
+        <% @product.reviews.reverse_each do |r| %>
+          <h4>Reviewer: <%= r.user.first_name %> <%= r.user.last_name %></h4>
+          <div><b>Description:</b> <%= r.description %></div>
+          <div><b>Rating:</b> <%= r.rating %></div>
+          <% if r.user_id == session[:user_id] %>
+            <%= link_to product_review_path(@product, r.id), method: :delete do %>
+            <div><i>Delete review</i></div>
+            <% end %>
           <% end %>
+          <div class="review-bottom"></div>
+          <br />
         <% end %>
-      <% end %>
+      </div>
     </div>
+
   </article>
 
 </section>

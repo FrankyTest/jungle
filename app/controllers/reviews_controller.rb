@@ -2,20 +2,20 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
 
-    @review.save
+    # @review.save
 
     if @review.save
       redirect_to '/'
     else
-      byebug
-      redirect_to product_path(params.product_id)
+      redirect_to product_path(@review.product)
     end
   end
 
   def destroy
-    Review.find(params.id).destroy
-    byebug
-    redirect_to product_path(params.product_id)
+    @review = Review.find(params['id'])
+
+    @review.destroy
+    redirect_to product_path(@review.product)
   end
 
   private

@@ -159,4 +159,8 @@ cat2.products.where(name: 'Hotdog Slicer')[0].reviews.create!({
   rating: 5
 })
 
+## USERS
+
+User.destroy_all
+
 puts "DONE!"
